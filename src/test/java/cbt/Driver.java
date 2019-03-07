@@ -23,7 +23,7 @@ public class Driver {
 		if (driver == null) {
 			System.out.println("Browser: "+System.getProperty("BROWSER"));
 			if (System.getProperty("BROWSER") == null) {
-				browser = "chrome";
+				browser = ConfigurationReader.getProperty("browser");
 			} else {
 				browser = System.getProperty("BROWSER");
 			}
