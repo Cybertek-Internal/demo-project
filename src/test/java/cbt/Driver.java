@@ -21,12 +21,11 @@ public class Driver {
 
 	public static WebDriver getDriver() {
 		if (driver == null) {
-			System.out.println("Browser: "+System.getenv("BROWSER"));
 			System.out.println("Browser: "+System.getProperty("BROWSER"));
-			if (System.getenv("BROWSER") == null) {
+			if (System.getProperty("BROWSER") == null) {
 				browser = "chrome";
 			} else {
-				browser = System.getenv("BROWSER");
+				browser = System.getProperty("BROWSER");
 			}
 			switch (browser) {
 			case "chrome":
