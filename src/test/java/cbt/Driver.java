@@ -21,6 +21,7 @@ public class Driver {
 
 	public static WebDriver getDriver() {
 		if (driver == null) {
+			System.out.println("Browser: "+System.getenv("BROWSER"));
 			if (System.getenv("BROWSER") == null) {
 				browser = "chrome";
 			} else {
