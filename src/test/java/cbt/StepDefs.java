@@ -1,52 +1,51 @@
 package cbt;
 
+import static org.junit.Assert.fail;
+
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.Assert;
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-
-import static org.junit.Assert.fail;
 
 public class StepDefs {
-    WebDriver driver;
 
-    @Given("^I am on the home page$")
-    public void i_am_on_the_home_page() throws Throwable {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        driver.get("http://etsy.com");
+	@Given("^I am on the home page$")
+	public void i_am_on_the_home_page() throws Throwable {
+		Driver.getDriver().get("http://etsy.com");
 
-    }
+	}
 
-    @When("^I search for \"([^\"]*)\"$")
-    public void i_search_for(String search) throws Throwable {
-        driver.findElement(By.id("search-query")).sendKeys(search + Keys.ENTER);
-    }
+	@When("^I search for \"([^\"]*)\"$")
+	public void i_search_for(String search) throws Throwable {
+		Driver.getDriver().findElement(By.id("search-query")).sendKeys(search + Keys.ENTER);
+	}
 
-    @Then("^I should see the results$")
-    public void i_should_see_the_results() throws Throwable {
-        Assert.assertTrue(driver.getCurrentUrl().contains("search"));
-    }
+	@Then("^I should see the results$")
+	public void i_should_see_the_results() throws Throwable {
+		Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains("search"));
+	}
 
-    @Then("^I should see more results$")
-    public void i_should_see_more_results() throws Throwable {
-        Assert.assertTrue(driver.getCurrentUrl().contains("search"));
-        fail();
-    }
+	@Then("^I should see more results$")
+	public void i_should_see_more_results() throws Throwable {
+		Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains("search"));
+		fail();
+	}
 
-    @After
-    public void tearDown(Scenario scenario) {
-        if (scenario.isFailed()) {
-            final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-            scenario.embed(screenshot, "image/png");
-        }
-        driver.quit();
-    }
-
+	@After
+	public void tearDown(Scenario scenario) {
+		if (scenario.isFailed()) {
+			final byte[] screenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
+			scenario.embed(screenshot, "image/png");
+		}
+		Driver.closeDriver();
+	}
 
 }

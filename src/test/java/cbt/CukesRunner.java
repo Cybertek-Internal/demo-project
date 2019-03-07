@@ -10,7 +10,8 @@ import org.junit.runner.RunWith;
                 "json:target/cucumber.json",
                 "html:target/cucumber/",
                 "junit:target/junit/junit-report.xml",
-                "rerun:target/rerun.txt"}
+                "rerun:target/rerun.txt"},
+        features = "src/test/resources/cbt"
 )
 public class CukesRunner {
 
