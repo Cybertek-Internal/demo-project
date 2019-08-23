@@ -15,17 +15,20 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import java.util.concurrent.TimeUnit;
+
 public class StepDefs {
 
 	@Given("^I am on the home page$")
 	public void i_am_on_the_home_page() throws Throwable {
+		Driver.getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		Driver.getDriver().get("http://etsy.com");
 
 	}
 
 	@When("^I search for \"([^\"]*)\"$")
 	public void i_search_for(String search) throws Throwable {
-		Driver.getDriver().findElement(By.id("search-query")).sendKeys(search + Keys.ENTER);
+		Driver.getDriver().findElement(By.cssSelector("[id*='search-query']")).sendKeys(search + Keys.ENTER);
 	}
 
 	@Then("^I should see the results$")
@@ -36,7 +39,6 @@ public class StepDefs {
 	@Then("^I should see more results$")
 	public void i_should_see_more_results() throws Throwable {
 		Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains("search"));
-		fail();
 	}
 
 	@After
