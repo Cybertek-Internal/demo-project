@@ -6,7 +6,7 @@ Feature: The application should be running
     When I search for "wooden spoon"
     Then I should see the results
 
-  @smoke @test2
+  @regression @test2
   Scenario: another search
     Given I am on the home page
     When I search for "useless box"
