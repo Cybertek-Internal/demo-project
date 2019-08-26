@@ -1,0 +1,60 @@
+pipeline {
+    agent none
+    stages {
+      stage('Cloning project from GIT') { // for display purposes
+          // Get some code from a GitHub repository
+         git 'https://github.com/Cybertekschool/demo-project.git'
+         //windows 
+         //bat label: '', script: 'git clone  https://github.com/vasyafomiuk/demo-project.git'
+        }
+        stage('Run Tests') {
+            parallel {
+                stage('Test On Chrome') {
+                    agent {
+                        label "chrome"
+                    }
+                    steps {
+                         bat label: 'chrome', script: 'mvn clean verify -DBROWSER=chrome -Dcucumber.options="--tags @test1"'
+                         cucumber fileIncludePattern: '**/*.json', sortingMethod: 'ALPHABETICAL'
+                         bat label: '', script: 'xcopy /E /I "%programfiles(x86)%\\Jenkins\\jobs\\cross-browsing pipeline demo\\builds\\%BUILD_NUMBER%\\cucumber-html-reports" "C:\\reports\\pipeline-reports\\chrome\\%BUILD_NUMBER%"'
+                    }
+                    
+                }
+                stage('Test On Firefox') {
+                    agent {
+                        label "chrome"
+                    }
+                    steps {
+                         bat label: 'firefox', script: 'mvn clean verify -DBROWSER=firefox -Dcucumber.options="--tags @test1"'
+                         cucumber fileIncludePattern: '**/*.json', sortingMethod: 'ALPHABETICAL'
+                         bat label: '', script: 'xcopy /E /I "%programfiles(x86)%\\Jenkins\\jobs\\cross-browsing pipeline demo\\builds\\%BUILD_NUMBER%\\cucumber-html-reports" "C:\\reports\\pipeline-reports\\firefox\\%BUILD_NUMBER%"'
+                    }
+                    
+                }
+            }
+      }
+      stage('Email report'){
+        emailext body: '''<html>
+        <head>
+          <title>Smoke Test report report</title>
+        </head>
+        <body>
+        <h1>Build status: $BUILD_STATUS</h1>
+        <br/>
+        <br/>
+        <h3>Click to view cucumber reports for each browser:</h3>
+        <br/>
+        <h4>Chrome test results</4h>
+        <br/>
+        http://ec2-54-204-67-55.compute-1.amazonaws.com/reports/pipeline-reports/chrome/${BUILD_NUMBER}/overview-features.html
+        <br/>
+        <h4>Firefox test results</4h>
+        <br/>
+        http://ec2-54-204-67-55.compute-1.amazonaws.com/reports/pipeline-reports/firefox/${BUILD_NUMBER}/overview-features.html
+        <br/>
+        </body>
+        </html>''', subject: '$BUILD_STATUS', to: 'vasyl@cybertekschool.com'
+    } 
+        
+    }
+}
