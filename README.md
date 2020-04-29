@@ -13,3 +13,15 @@ Install [Cucumber HTML report plugin](https://plugins.jenkins.io/cucumber-report
 ```
 mvn test
 ```
+## Tags
+You can pass a custom tag using terminal. Available tags are **@smoke**, **@regression**. 
+
+```
+mvn test -Dcucumber.options.tags="@smoke"
+```
+## Browsers
+You can pass change using command line argument BROWSER
+```
+mvn test -DBROWSER=firefox
+
+```

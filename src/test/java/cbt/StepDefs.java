@@ -2,6 +2,11 @@ package cbt;
 
 import static org.junit.Assert.fail;
 
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -9,13 +14,8 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
-import cucumber.api.Scenario;
-import cucumber.api.java.After;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-
 import java.util.concurrent.TimeUnit;
+
 
 public class StepDefs {
 
@@ -46,7 +46,7 @@ public class StepDefs {
     public void tearDown(Scenario scenario) {
         if (scenario.isFailed()) {
             final byte[] screenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
-            scenario.embed(screenshot, "image/png");
+            scenario.embed(screenshot, "image/png", scenario.getName());
         }
         Driver.closeDriver();
     }

@@ -1,7 +1,7 @@
 package cbt;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
@@ -13,6 +13,4 @@ import org.junit.runner.RunWith;
                 "rerun:target/rerun.txt"},
         features = "src/test/resources/cbt"
 )
-public class CukesRunner {
-
-}
+public class CukesRunner {}
