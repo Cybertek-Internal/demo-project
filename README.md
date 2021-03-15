@@ -17,7 +17,7 @@ mvn test
 You can pass a custom tag using terminal. Available tags are **@smoke**, **@regression**. 
 
 ```
-mvn test -Dcucumber.options.tags="@smoke"
+mvn test -Dcucumber.filter.tags="@smoke"
 ```
 ## Browsers
 You can pass change using command line argument BROWSER
